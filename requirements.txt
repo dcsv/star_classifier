@@ -2,4 +2,4 @@ scikit-learn
 plotly
 pillow
 opencv-python
-
+streamlit
