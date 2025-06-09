@@ -86,3 +86,21 @@ with st.expander("\U0001F50E Distribución de variables categóricas"):
     for col in cat_cols:
         st.markdown(f"**{col}**")
         st.write(df[col].value_counts())
+st.header("\U0001F4CC Detección de outliers")
+num_cols = df.select_dtypes(include=["float", "int"]).columns.tolist()
+var = st.selectbox("Selecciona una variable numérica", num_cols, index=0)
+k = st.slider("Factor multiplicador del IQR (k)", min_value=0.5, max_value=3.0, value=1.5, step=0.1)
+q1, q3 = df[var].quantile([0.25, 0.75])
+iqr = q3 - q1
+lower, upper = q1 - k * iqr, q3 + k * iqr
+outliers = df[(df[var] < lower) | (df[var] > upper)]
+st.write(f"\U0001F539 Total de outliers en `{var}`: **{len(outliers)}**")
+if st.checkbox("Mostrar tabla de outliers"):
+    st.dataframe(outliers[[var]])
+fig, ax = plt.subplots()
+sns.boxplot(x=df[var], ax=ax, color="#76b5c5")
+ax.axvline(lower, color="red", linestyle="--", label="Límite inferior")
+ax.axvline(upper, color="red", linestyle="--", label="Límite superior")
+ax.set_title(f"Box-plot de `{var}` • IQR × {k}")
+ax.legend()
+st.pyplot(fig)
