@@ -24,3 +24,42 @@ with st.sidebar:
 # --- Título y descripción ----------------------------------------------------------
 st.title("Star Classifier")
 
+## Contexto del Proyecto
+st.markdown("""
+
+## Contexto
+
+La clasificación de estrellas es una tarea fundamental en astrofísica, ya que nos permite entender la estructura, evolución y composición del universo.
+ Al clasificar una estrella, se busca agruparla según sus características físicas, lo que nos ayuda a predecir su comportamiento, su historia evolutiva y su futuro.
+ Este dataset es una colección estructurada de información física y categórica sobre diferentes tipos de estrellas, con el objetivo de construir un modelo que prediga
+  su tipo estelar (Star type) a partir de sus propiedades observables.
+
+**Las variables de entrada son:**
+
+1. Temperature (K)
+2. Luminosity(L/Lo)
+3. Radius(R/Ro)
+4. Absolute magnitude(Mv)
+5. Spectral Class
+6. Star color
+
+**Variable objetivo (target):**
+
+7. Star type
+
+El conjunto de datos consta de **240 observaciones**.
+
+## Objetivo del Proyecto
+
+El objetivo principal es desarrollar un modelo predictivo que, dadas las características de las estrellas, estime el tipo de estrella.
+
+## 📂 Fuente del Dataset
+
+- https://www.kaggle.com/datasets/deepu1109/star-dataset
+
+---
+""")
+
+# --- Título y descripción ----------------------------------------------------------
+st.title("Análisis de datos exploratorios – EDA interactivo")
+
