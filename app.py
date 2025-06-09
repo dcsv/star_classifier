@@ -63,8 +63,6 @@ El objetivo principal es desarrollar un modelo predictivo que, dadas las caracte
 # --- Título y descripción ----------------------------------------------------------
 st.title("Análisis de datos exploratorios – EDA interactivo")
 st.sidebar.title("Controles de EDA")
-st.sidebar.write("🔍 Debug: se llegó a la barra lateral")
-print("🔧 Debug: se llegó a la barra lateral (consola)")
 show_raw = st.sidebar.checkbox("Mostrar tabla completa", value=False)
 num_bins = st.sidebar.slider("N° de bins (histograma)", 5, 50, 20)
 
@@ -73,7 +71,8 @@ if show_raw:
     st.dataframe(df)
 
 st.subheader("\U0001F4CA Estadísticos descriptivos")
-st.write(df.describe())
+numeric_cols = df.select_dtypes(include=["number"]).drop(columns=["Star type"])
+st.write(numeric_cols.describe())
 
 st.subheader("\U0001F4CC Distribución de clases • `Star type`")
 fig, ax = plt.subplots()
