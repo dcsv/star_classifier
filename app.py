@@ -63,6 +63,8 @@ El objetivo principal es desarrollar un modelo predictivo que, dadas las caracte
 # --- Título y descripción ----------------------------------------------------------
 st.title("Análisis de datos exploratorios – EDA interactivo")
 st.sidebar.title("Controles de EDA")
+st.sidebar.write("🔍 Debug: se llegó a la barra lateral")
+print("🔧 Debug: se llegó a la barra lateral (consola)")
 show_raw = st.sidebar.checkbox("Mostrar tabla completa", value=False)
 num_bins = st.sidebar.slider("N° de bins (histograma)", 5, 50, 20)
 
