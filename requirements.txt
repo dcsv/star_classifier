@@ -3,4 +3,4 @@ plotly
 pillow
 opencv-python
 streamlit
-seaborn
+seaborn==0.13.2
