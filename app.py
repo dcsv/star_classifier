@@ -15,7 +15,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, a
 with st.sidebar:
     st.header("\U0001F4C2 Dataset predeterminado")
     try:
-        df = pd.read_csv("6 class csv.csv", sep=r"\s+")
+        df = pd.read_csv("6 class csv.csv", sep=",")
         st.success("\u2705 Dataset cargado desde el repositorio.")
     except FileNotFoundError:
         st.error("\u274C No se encontró el archivo en el repositorio.")
