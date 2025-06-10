@@ -103,3 +103,38 @@ ax.axvline(upper, color="red", linestyle="--", label="Límite superior")
 ax.set_title(f"Box-plot de `{var}` • IQR × {k}")
 ax.legend()
 st.pyplot(fig)
+
+# ------------------------------------------------------------------------------
+# Modelo predictivo
+# ------------------------------------------------------------------------------
+st.title("\U0001F52D Predicción del Tipo de Estrella")
+
+st.sidebar.subheader("\U0001F4E6 Cargar modelo (.pkl)")
+uploaded_pkl = st.sidebar.file_uploader("Subir archivo Pickle", type=["pkl", "pickle"])
+
+@st.cache_resource(show_spinner="Cargando modelo...")
+def load_pipeline_from_bytes(file_bytes: bytes):
+    return pickle.load(io.BytesIO(file_bytes))
+
+if uploaded_pkl is not None:
+    try:
+        model = load_pipeline_from_bytes(uploaded_pkl.getvalue())
+        st.sidebar.success("\u2705 Modelo cargado correctamente.")
+    except Exception as e:
+        st.sidebar.error(f"\u274C Error al cargar el modelo: {e}")
+        st.stop()
+else:
+    st.sidebar.info("\u231B Esperando archivo Pickle...")
+    st.stop()
+
+st.header("\U0001F9EA Ingresar características de la estrella")
+
+temperature = st.number_input("Temperatura (K)", min_value=1900, max_value=50000, value=5000)
+luminosity = st.number_input("Luminosidad (L/Lo)", min_value=0.0001, max_value=100000.0, value=1.0)
+radius = st.number_input("Radio (R/Ro)", min_value=0.01, max_value=1000.0, value=1.0)
+magnitude = st.number_input("Magnitud absoluta (Mv)", min_value=-10.0, max_value=25.0, value=5.0)
+
+star_color = st.selectbox("Color de la estrella", [
+    "Red", "Blue", "White", "Yellow", "Orange", "Blue-white", "Yellowish", "Whitish"
+])
+spectral_class = st.selectbox("Clase espectral", ["O", "B", "A", "F", "G", "K", "M"])
