@@ -222,92 +222,90 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
     ##---
     st.subheader("Diagrama de Hertzsprung–Russell")
 
-    # Datos
-    temp_all   = df["Temperature (K)"]
-    lum_all    = df["Luminosity(L/Lo)"]
-    spec_all   = df["Spectral Class"]
-    pred_temp  = temperature
-    pred_lum   = luminosity
+    # 1. Datos
+    temps = df["Temperature (K)"]
+    lums  = df["Luminosity(L/Lo)"]
 
-    # 1. Configuración de figura y ejes
+    # 2. Configuración de figura y ejes
     fig, ax = plt.subplots(figsize=(8,6), facecolor="black")
     ax.set_facecolor("black")
 
-    # 2. Scatter de todas las clases espectrales
-    spec_colors = {
-        "O":"#9bb0ff", "B":"#aabfff", "A":"#cad7ff",
-        "F":"#f8f7ff", "G":"#fff4ea", "K":"#ffd2a1",
-        "M":"#ffcc6f"
-    }
-    sns.scatterplot(
-        x=temp_all, y=lum_all, hue=spec_all,
-        palette=spec_colors, s=30, alpha=0.8,
-        ax=ax, legend=False
+    # 3. Scatter de fondo coloreado por temperatura
+    norm = LogNorm(vmin=temps.min(), vmax=temps.max())
+    sc   = ax.scatter(
+        temps, lums,
+        c=temps, cmap="nipy_spectral_r", norm=norm,
+        s=30, alpha=0.8, edgecolor="none"
     )
 
-    # 3. Invertir eje X y log en Y
-    ax.invert_xaxis()
-    ax.set_yscale("log")
-    ax.set_xlim(40000, 2000)
-    ax.set_ylim(1e-4, 1e6)
-
-    ax.set_xlabel("Temperature (K)", color="white")
-    ax.set_ylabel("Luminosity (L/Lo)", color="white")
-    ax.tick_params(colors="white", which="both")
-
-    # 4. Colorbar horizontal arco iris invertido
-    norm = LogNorm(vmin=temp_all.min(), vmax=temp_all.max())
-    sm   = plt.cm.ScalarMappable(cmap="nipy_spectral_r", norm=norm)
-    sm.set_array([])
-
+    # 4. Colorbar horizontal tipo arco iris invertido
     cbar = fig.colorbar(
-        sm, ax=ax, orientation="horizontal",
+        sc, ax=ax, orientation="horizontal",
         pad=0.12, fraction=0.05, aspect=40
     )
     cbar.ax.xaxis.set_ticks_position('top')
     cbar.ax.xaxis.set_label_position('top')
     cbar.set_label("Temperatura (K)", color="white")
     cbar.ax.tick_params(colors="white")
+    cbar.ax.invert_xaxis()  # <— invierte la barra espectral
 
-    # 5. Etiquetas de regiones con borde blanco
+    # 5. Ejes estilo “espacio profundo”
+    ax.set_yscale("log")
+    ax.invert_xaxis()
+    ax.set_xlim(40000, 2000)
+    ax.set_ylim(1e-4, 1e6)
+    ax.set_xlabel("Temperatura (K)", color="white")
+    ax.set_ylabel("Luminosidad (L/Lo)", color="white")
+    ax.tick_params(colors="white", which="both")
+
+    # 6. Etiquetas de regiones con borde blanco
     regions = {
-        "White Dwarfs": (35000, 1e-3),
-        "Main Sequence": (15000, 1e1),
-        "Giants": (7000, 1e3),
-        "Supergiants": (7000, 1e5)
+        "White Dwarfs":    (35000, 1e-3),
+        "Main Sequence":   (15000, 1e1),
+        "Giants":          (7000, 1e3),
+        "Supergiants":     (7000, 1e5)
     }
     for txt, (x, y) in regions.items():
-        txt_obj = ax.text(
+        ax.text(
             x, y, txt, color="white", fontsize=12,
             path_effects=[pe.withStroke(linewidth=3, foreground="black")]
         )
 
-    # 6. “Tu estrella” encima de todo en amarillo
+    # 7. “Tu estrella” en amarillo
     ax.scatter(
-        pred_temp, pred_lum,
-        marker="*", s=250, c="yellow",
-        edgecolor="black", linewidth=1.5,
+        temperature, luminosity,
+        marker="*", s=250,
+        color="yellow", edgecolor="black", linewidth=1.5,
         zorder=5
     )
 
-    # 7. Leyenda manual por delante
+    # 8. Leyenda de TIPOS ESTELARES (0–5) fuera del gráfico
+    star_type_labels = {
+        0: "Enana Marrón",
+        1: "Enana Roja",
+        2: "Enana Blanca",
+        3: "Secuencia Principal",
+        4: "Supergigante",
+        5: "Hipergigante"
+    }
     handles = [
-        Line2D([0],[0], marker="o", color=col, linestyle="", ms=8)
-        for col in spec_colors.values()
-    ] + [Line2D([0],[0], marker="*", color="yellow", linestyle="", ms=15)]
-    labels = list(spec_colors.keys()) + [f"Tu estrella ({predicted_type})"]
+        Line2D([0], [0], marker="o", color="w", linestyle="",
+              markerfacecolor="grey", markersize=8)
+        for _ in star_type_labels
+    ]
+    labels = [f"{k}: {v}" for k, v in star_type_labels.items()]
+    # añade tu estrella al final
+    handles.append(Line2D([0], [0], marker="*", color="w", linestyle="",
+                          markerfacecolor="yellow", markersize=15))
+    labels.append(f"Tu estrella ({predicted_type})")
 
-    leg = ax.legend(
+    ax.legend(
         handles, labels,
-        title="Clase espectral",
+        title="Tipos Estelares",
         facecolor="black", framealpha=0.6,
-        edgecolor="white",
-        labelcolor="white",
-        title_fontsize=12,
-        loc="upper right"
+        labelcolor="white", title_fontsize=12,
+        loc="upper left", bbox_to_anchor=(1.02, 1)
     )
-    for text in leg.get_texts():
-        text.set_color("white")
 
     st.pyplot(fig)
     ##---
