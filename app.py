@@ -262,10 +262,10 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
 
     # 6. Etiquetas de regiones con borde blanco
     regions = {
-        "White Dwarfs":    (35000, 1e-3),
-        "Main Sequence":   (15000, 1e1),
-        "Giants":          (7000, 1e3),
-        "Supergiants":     (7000, 1e5)
+        "Enanas blancas":    (35000, 1e-3),
+        "Secuencia Principal":   (15000, 1e1),
+        "Gigantes":          (7000, 1e3),
+        "Super-Gigantes":     (7000, 1e5)
     }
     for txt, (x, y) in regions.items():
         ax.text(
