@@ -244,7 +244,7 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
         pad=0.12, fraction=0.05, aspect=40
     )
     cbar.ax.xaxis.set_ticks_position('top')
-    cbar.ax.xaxis.set_label_position('button') #era top ############
+    cbar.ax.xaxis.set_label_position('bottom') #era top ############
     cbar.set_label(" ", color="white") #modificado
     cbar.ax.tick_params(colors="white")
     cbar.ax.invert_xaxis()  # <— invierte la barra espectral
