@@ -11,6 +11,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, a
 import urllib.request
 from sklearn.base import BaseEstimator, TransformerMixin
 import re
+from matplotlib.lines import Line2D
 
 # ------------------------------------------------------------------------------
 # 1. Sidebar: cargador de archivos
