@@ -8,6 +8,7 @@ import pickle
 import io
 import time
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import urllib.request
 
 # ------------------------------------------------------------------------------
 # 1. Sidebar: cargador de archivos
@@ -109,22 +110,21 @@ st.pyplot(fig)
 # ------------------------------------------------------------------------------
 st.title("\U0001F52D Predicción del Tipo de Estrella")
 
-st.sidebar.subheader("\U0001F4E6 Cargar modelo (.pkl)")
-uploaded_pkl = st.sidebar.file_uploader("Subir archivo Pickle", type=["pkl", "pickle"])
+# URL RAW del archivo .pkl en GitHub
+pkl_url = "https://raw.githubusercontent.com/dcsv/star_classifier/main/best_model_pipeline_RF.pkl"
 
-@st.cache_resource(show_spinner="Cargando modelo...")
-def load_pipeline_from_bytes(file_bytes: bytes):
-    return pickle.load(io.BytesIO(file_bytes))
+st.sidebar.subheader("\U0001F4E6 Cargar modelo desde GitHub")
 
-if uploaded_pkl is not None:
-    try:
-        model = load_pipeline_from_bytes(uploaded_pkl.getvalue())
-        st.sidebar.success("\u2705 Modelo cargado correctamente.")
-    except Exception as e:
-        st.sidebar.error(f"\u274C Error al cargar el modelo: {e}")
-        st.stop()
-else:
-    st.sidebar.info("\u231B Esperando archivo Pickle...")
+@st.cache_resource(show_spinner="Cargando modelo desde GitHub...")
+def load_pipeline_from_url(url: str):
+    with urllib.request.urlopen(url) as response:
+        return pickle.load(response)
+
+try:
+    model = load_pipeline_from_url(pkl_url)
+    st.sidebar.success("\u2705 Modelo cargado correctamente desde GitHub.")
+except Exception as e:
+    st.sidebar.error(f"\u274C Error al cargar el modelo: {e}")
     st.stop()
 
 st.header("\U0001F9EA Ingresar características de la estrella")
