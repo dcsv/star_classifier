@@ -249,9 +249,6 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
     cbar.set_label("Temperatura (K)", color="white", labelpad=4)
     cbar.ax.tick_params(colors="white")
     
-    # quitar cualquier offset residual
-    from matplotlib.ticker import ScalarFormatter
-    cbar.ax.xaxis.set_major_formatter(ScalarFormatter())
     cbar.ax.xaxis.get_offset_text().set_visible(False)
 
     # 5. Ejes estilo “espacio profundo”
