@@ -190,13 +190,13 @@ except Exception as e:
 
 st.header("\U0001F9EA Ingresar características de la estrella")
 
-temperature = st.number_input("Temperatura (K)", min_value=1939, max_value=40000, value=3068)
-luminosity = st.number_input("Luminosidad (L/Lo)", min_value=0.000080, max_value=849420, value=0.0024)
+temperature = st.number_input("Temperatura (K)", min_value=1939.0, max_value=40000.0, value=3068.0)
+luminosity = st.number_input("Luminosidad (L/Lo)", min_value=0.000080, max_value=849420.0, value=0.0024)
 radius = st.number_input("Radio (R/Ro)", min_value=0.0084, max_value=1948.5, value=0.17)
 magnitude = st.number_input("Magnitud absoluta (Mv)", min_value=-11.9, max_value=20.06, value=16.12)
 
 star_color = st.selectbox("Color de la estrella", [
-    'Blue', 'Blue White', 'Orange', 'Orange Red', 'Pale Yellow Orange', 'Red', 'White', 'Whitish', 'Yellowish', 'Yellowish White'
+    "Blue", "Blue White", "Orange", "Orange Red", "Pale Yellow Orange", "Red", "White", "Whitish", "Yellowish", "Yellowish White"
 ])
 spectral_class = st.selectbox("Clase espectral", ["O", "B", "A", "F", "G", "K", "M"])
 
