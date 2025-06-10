@@ -50,6 +50,10 @@ La clasificación de estrellas es una tarea fundamental en astrofísica, ya que 
 
 7. Star type
 
+El dataset incluye cinco variables numéricas: temperatura (K), luminosidad relativa (L/Lo), radio relativo (R/Ro), magnitud absoluta (Mv) 
+y tipo de estrella (0: Enana Marrón, 1: Enana Roja, 2: Enana Blanca, 3: Secuencia Principal, 4: Supergigante, 5: Hipergigante).
+También incorpora dos variables categóricas: color estelar (ej., blanco, azul, amarillo) y clase espectral (O, B, A, F, G, K, M).
+
 El conjunto de datos consta de **240 observaciones**.
 
 ## Objetivo del Proyecto
@@ -186,13 +190,13 @@ except Exception as e:
 
 st.header("\U0001F9EA Ingresar características de la estrella")
 
-temperature = st.number_input("Temperatura (K)", min_value=1900, max_value=50000, value=5000)
-luminosity = st.number_input("Luminosidad (L/Lo)", min_value=0.0001, max_value=100000.0, value=1.0)
-radius = st.number_input("Radio (R/Ro)", min_value=0.01, max_value=1000.0, value=1.0)
-magnitude = st.number_input("Magnitud absoluta (Mv)", min_value=-10.0, max_value=25.0, value=5.0)
+temperature = st.number_input("Temperatura (K)", min_value=1939, max_value=40000, value=3068)
+luminosity = st.number_input("Luminosidad (L/Lo)", min_value=0.000080, max_value=849420, value=0.0024)
+radius = st.number_input("Radio (R/Ro)", min_value=0.0084, max_value=1948.5, value=0.17)
+magnitude = st.number_input("Magnitud absoluta (Mv)", min_value=-11.9, max_value=20.06, value=16.12)
 
 star_color = st.selectbox("Color de la estrella", [
-    "Red", "Blue", "White", "Yellow", "Orange", "Blue-white", "Yellowish", "Whitish"
+    'Blue', 'Blue White', 'Orange', 'Orange Red', 'Pale Yellow Orange', 'Red', 'White', 'Whitish', 'Yellowish', 'Yellowish White'
 ])
 spectral_class = st.selectbox("Clase espectral", ["O", "B", "A", "F", "G", "K", "M"])
 
