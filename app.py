@@ -245,19 +245,21 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
         pad=0.12, fraction=0.05, aspect=40
     )
     cbar.ax.xaxis.set_ticks_position('top')
-    cbar.ax.xaxis.set_label_position('top') 
-    cbar.set_label("Temperatura (K)", color="white")
+    cbar.ax.xaxis.set_label_position('bottom') 
+    cbar.set_label("Temperatura (K)", color="white", labelpad=4)
     cbar.ax.tick_params(colors="white")
+    
+    # quitar cualquier offset residual
+    from matplotlib.ticker import ScalarFormatter
     cbar.ax.xaxis.set_major_formatter(ScalarFormatter())
     cbar.ax.xaxis.get_offset_text().set_visible(False)
-    cbar.ax.invert_xaxis()  # <— invierte la barra espectral
 
     # 5. Ejes estilo “espacio profundo”
     ax.set_yscale("log")
     ax.invert_xaxis()
     ax.set_xlim(40000, 2000)
     ax.set_ylim(1e-4, 1e6)
-    ax.set_xlabel("Temperatura (K)", color="white")
+    ax.set_xlabel("", color="white")
     ax.set_ylabel("Luminosidad (L/Lo)", color="white")
     ax.tick_params(colors="white", which="both")
 
