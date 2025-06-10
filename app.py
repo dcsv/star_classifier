@@ -71,7 +71,6 @@ El objetivo principal es desarrollar un modelo predictivo que, dadas las caracte
 st.title("Análisis de datos exploratorios – EDA interactivo")
 st.sidebar.title("Controles de EDA")
 show_raw = st.sidebar.checkbox("Mostrar tabla completa", value=False)
-num_bins = st.sidebar.slider("N° de bins (histograma)", 5, 50, 20)
 
 if show_raw:
     st.subheader("\U0001F4C4 Datos crudos del dataset")
@@ -212,8 +211,8 @@ X_new = pd.DataFrame([{
 if st.button("\U0001F50D Predecir tipo de estrella"):
     y_pred = model.predict(X_new)
     star_type_dict = {
-        0: "Enana roja", 1: "Enana marrón", 2: "Enana blanca",
-        3: "Secuencia principal", 4: "Subgigante", 5: "Gigante"
+        0: "Enana marrón", 1: "Enana roja", 2: "Enana blanca",
+        3: "Secuencia principal", 4: "Super gigante", 5: "Hipergigante"
     }
     predicted_type = star_type_dict.get(y_pred[0], "Desconocido")
     st.success(f"\U0001F31F Tipo de estrella predicho: **{predicted_type}** (Clase {y_pred[0]})")
