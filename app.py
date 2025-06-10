@@ -216,41 +216,73 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
     }
     predicted_type = star_type_dict.get(y_pred[0], "Desconocido")
     ##---
-    # … dentro de tu `if st.button("Predecir tipo de estrella"):` y tras st.success(…):
+    # tras st.success(f"Tipo predicho: {predicted_type}")
     st.subheader("Diagrama de Hertzsprung–Russell")
 
-    # 1. Scatter de todas las estrellas reales
-    fig, ax = plt.subplots(figsize=(8,6))
+    # 1. Colores por tipo espectral
+    spec_colors = {
+        "O": "blue",
+        "B": "deepskyblue",
+        "A": "white",
+        "F": "lightyellow",
+        "G": "yellow",
+        "K": "orange",
+        "M": "red"
+    }
+
+    fig, ax = plt.subplots(figsize=(8,6), facecolor="black")
+    fig.patch.set_facecolor("black")
+
+    # 2. Scatter real por Spectral Class
     sns.scatterplot(
         data=df,
         x="Temperature (K)",
         y="Luminosity(L/Lo)",
-        hue="Star type",
-        palette="viridis",
-        alpha=0.6,
+        hue="Spectral Class",
+        palette=spec_colors,
+        s=30, alpha=0.7,
         ax=ax,
-        legend="full"
+        legend=False  # lo añadimos manualmente
     )
 
-    # 2. Ajustes típicos de un HR: temperatura inversa
+    # 3. Invertir eje X y escalar eje Y en log
     ax.invert_xaxis()
-    ax.set_xlabel("Temperatura (K)")
-    ax.set_ylabel("Luminosidad (L/Lo)")
+    ax.set_yscale("log")
+    ax.set_xlabel("Temperatura (K)", color="white")
+    ax.set_ylabel("Luminosidad (L/Lo)", color="white")
+    ax.tick_params(colors="white")
 
-    # 3. Punto de la estrella ingresada
-    #    `temperature` y `luminosity` son los valores que recogiste con st.number_input
+    # 4. Etiquetas de regiones
+    ax.text(35000, 1e5, "Enanas blancas",    color="white", fontsize=12)
+    ax.text(20000, 1e3, "Secuencia principal",   color="white", fontsize=12)
+    ax.text(5000,  2e4, "Super-Gigantes",          color="white", fontsize=12)
+    ax.text(5000,  2e5, "Hyper-Giantes",     color="white", fontsize=12)
+
+    # 5. Punto de tu estrella en amarillo
     ax.scatter(
-        temperature,
-        luminosity,
-        s=200,
-        c="red",
-        marker="*",
+        temperature, luminosity,
+        marker="*", s=200,
+        color="yellow",
         edgecolor="black",
-        label="Tu estrella"
+        linewidth=1.2
     )
 
-    # 4. Leyenda final y mostrar
-    ax.legend(bbox_to_anchor=(1.05,1), loc="upper left", title="Clases")
+    # 6. Leyenda manual con clases y tu estrella
+    handles = [Line2D([0],[0], marker="o", color=col, linestyle="", ms=8)
+              for col in spec_colors.values()]
+    labels  = [f"{k}" for k in spec_colors.keys()]
+    # añadir tu estrella
+    handles.append(Line2D([0],[0], marker="*", color="yellow", linestyle="", ms=15))
+    labels.append(f"Tu estrella ({predicted_type})")
+
+    ax.legend(handles, labels,
+              title="Clase espectral",
+              facecolor="black", framealpha=0.6,
+              labelcolor="white",
+              title_fontsize=12,
+              loc="upper left",
+              bbox_to_anchor=(1.02,1))
+
     st.pyplot(fig)
     ##---
     st.success(f"\U0001F31F Tipo de estrella predicho: **{predicted_type}** (Clase {y_pred[0]})")
