@@ -146,6 +146,31 @@ class CorrelationFilter(BaseEstimator, TransformerMixin):
             input_features = self.feature_names_in_
         return [c for c in input_features if c not in self.to_drop_]
 
+# Se normalizan tipografías, eliminamos guiones,espacios extra y agrupamos alias semánticos antes de codificar “Star color”.
+def clean_color(arr):
+    """
+    Acepta arr como DataFrame o ndarray.
+    Convierte siempre a ndarray y aplana.
+    Luego normaliza y agrupa alias.
+    """
+    # 1) asegúrate de trabajar con un ndarray de una sola columna
+    a = np.asarray(arr).ravel()
+
+    mapping = {
+        'Yellow White':   'Yellowish White',
+        'White Yellow':   'Yellowish White',
+        'Yellowish White':'Yellowish White'
+    }
+    out = []
+    for s in a:
+        s2 = (s.lower().strip()
+               .replace('-', ' ')
+               .replace('_', ' '))
+        s2 = re.sub(r'\s+', ' ', s2).title()
+        out.append(mapping.get(s2, s2))
+    #return np.array(out).reshape(-1, 1)
+    return np.array(out, dtype=object).reshape(-1, 1)
+
 @st.cache_resource(show_spinner="Cargando modelo desde GitHub...")
 def load_pipeline_from_url(url: str):
     with urllib.request.urlopen(url) as response:
