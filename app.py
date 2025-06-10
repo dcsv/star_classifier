@@ -50,7 +50,7 @@ La clasificación de estrellas es una tarea fundamental en astrofísica, ya que 
 
 7. Star type
 
-El dataset incluye cinco variables numéricas: temperatura (K), luminosidad relativa (L/Lo), radio relativo (R/Ro), magnitud absoluta (Mv) 
+El dataset incluye cinco variables numéricas: temperatura (K), luminosidad relativa (L/Lo), radio relativo (R/Ro), magnitud absoluta (Mv)
 y tipo de estrella (0: Enana Marrón, 1: Enana Roja, 2: Enana Blanca, 3: Secuencia Principal, 4: Supergigante, 5: Hipergigante).
 También incorpora dos variables categóricas: color estelar (ej., blanco, azul, amarillo) y clase espectral (O, B, A, F, G, K, M).
 
@@ -215,5 +215,43 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
         3: "Secuencia principal", 4: "Super gigante", 5: "Hipergigante"
     }
     predicted_type = star_type_dict.get(y_pred[0], "Desconocido")
+    ##---
+    # … dentro de tu `if st.button("Predecir tipo de estrella"):` y tras st.success(…):
+    st.subheader("Diagrama de Hertzsprung–Russell")
+
+    # 1. Scatter de todas las estrellas reales
+    fig, ax = plt.subplots(figsize=(8,6))
+    sns.scatterplot(
+        data=df,
+        x="Temperature (K)",
+        y="Luminosity(L/Lo)",
+        hue="Star type",
+        palette="viridis",
+        alpha=0.6,
+        ax=ax,
+        legend="full"
+    )
+
+    # 2. Ajustes típicos de un HR: temperatura inversa
+    ax.invert_xaxis()
+    ax.set_xlabel("Temperatura (K)")
+    ax.set_ylabel("Luminosidad (L/Lo)")
+
+    # 3. Punto de la estrella ingresada
+    #    `temperature` y `luminosity` son los valores que recogiste con st.number_input
+    ax.scatter(
+        temperature,
+        luminosity,
+        s=200,
+        c="red",
+        marker="*",
+        edgecolor="black",
+        label="Tu estrella"
+    )
+
+    # 4. Leyenda final y mostrar
+    ax.legend(bbox_to_anchor=(1.05,1), loc="upper left", title="Clases")
+    st.pyplot(fig)
+    ##---
     st.success(f"\U0001F31F Tipo de estrella predicho: **{predicted_type}** (Clase {y_pred[0]})")
 
