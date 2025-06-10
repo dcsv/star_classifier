@@ -262,7 +262,7 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
 
     # 6. Etiquetas de regiones con borde blanco
     regions = {
-        "Enanas blancas":    (35000, 1e-3),
+        "Enanas blancas":    (25000, 1e-3),
         "Secuencia Principal":   (15000, 1e1),
         "Gigantes":          (7000, 1e3),
         "Super-Gigantes":     (7000, 1e5)
