@@ -194,3 +194,22 @@ star_color = st.selectbox("Color de la estrella", [
     "Red", "Blue", "White", "Yellow", "Orange", "Blue-white", "Yellowish", "Whitish"
 ])
 spectral_class = st.selectbox("Clase espectral", ["O", "B", "A", "F", "G", "K", "M"])
+
+X_new = pd.DataFrame([{
+    "Temperature (K)": temperature,
+    "Luminosity(L/Lo)": luminosity,
+    "Radius(R/Ro)": radius,
+    "Absolute magnitude(Mv)": magnitude,
+    "Star color": star_color,
+    "Spectral Class": spectral_class
+}])
+
+if st.button("\U0001F50D Predecir tipo de estrella"):
+    y_pred = model.predict(X_new)
+    star_type_dict = {
+        0: "Enana roja", 1: "Enana marrón", 2: "Enana blanca",
+        3: "Secuencia principal", 4: "Subgigante", 5: "Gigante"
+    }
+    predicted_type = star_type_dict.get(y_pred[0], "Desconocido")
+    st.success(f"\U0001F31F Tipo de estrella predicho: **{predicted_type}** (Clase {y_pred[0]})")
+
