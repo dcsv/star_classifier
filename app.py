@@ -245,7 +245,7 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
     )
     cbar.ax.xaxis.set_ticks_position('top')
     cbar.ax.xaxis.set_label_position('top')
-    cbar.set_label("Temperatura (K)", color="white")
+    cbar.set_label(" ", color="white")
     cbar.ax.tick_params(colors="white")
     cbar.ax.invert_xaxis()  # <— invierte la barra espectral
 
