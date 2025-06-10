@@ -9,6 +9,7 @@ import io
 import time
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import urllib.request
+from sklearn.base import BaseEstimator, TransformerMixin
 
 # ------------------------------------------------------------------------------
 # 1. Sidebar: cargador de archivos
@@ -114,6 +115,36 @@ st.title("\U0001F52D Predicción del Tipo de Estrella")
 pkl_url = "https://raw.githubusercontent.com/dcsv/star_classifier/main/best_model_pipeline_RF.pkl"
 
 st.sidebar.subheader("\U0001F4E6 Cargar modelo desde GitHub")
+
+# Clase personalizada
+class CorrelationFilter(BaseEstimator, TransformerMixin):
+    def __init__(self, threshold=0.8):
+        self.threshold = threshold
+
+    def fit(self, X, y=None):
+        # aceptar DataFrame o ndarray
+        if isinstance(X, pd.DataFrame):
+            cols = list(X.columns)
+            df   = X
+        else:
+            cols = [f"x{i}" for i in range(X.shape[1])]
+            df   = pd.DataFrame(X, columns=cols)
+
+        corr    = df.corr().abs()
+        upper   = corr.where(np.triu(np.ones(corr.shape), k=1).astype(bool))
+        self.to_drop_        = [c for c in upper.columns if any(upper[c] > self.threshold)]
+        self.feature_names_in_ = cols
+        return self
+
+    def transform(self, X):
+        df = pd.DataFrame(X, columns=self.feature_names_in_)
+        return df.drop(columns=self.to_drop_, errors="ignore").values
+
+    def get_feature_names_out(self, input_features=None):
+        # devuelve los nombres que quedan tras el drop
+        if input_features is None:
+            input_features = self.feature_names_in_
+        return [c for c in input_features if c not in self.to_drop_]
 
 @st.cache_resource(show_spinner="Cargando modelo desde GitHub...")
 def load_pipeline_from_url(url: str):
