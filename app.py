@@ -15,6 +15,7 @@ import re
 from matplotlib.colors import LogNorm
 import matplotlib.patheffects as pe
 from matplotlib.lines import Line2D
+from matplotlib.ticker import ScalarFormatter
 
 # ------------------------------------------------------------------------------
 # 1. Sidebar: cargador de archivos
