@@ -279,6 +279,7 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
         "Secuencia Principal":   (15000, 1e1),
         "Gigantes":          (7000, 1e3),
         "Super-Gigantes":     (10000, 1e5),
+        "Hiper-Gigantes":     (10000, 1e6),
         "Enanas roja":    (8000, 1e-2),
         "Enanas marrón":    (6000, 1e-3)
     }
