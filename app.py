@@ -195,16 +195,16 @@ except Exception as e:
 st.header("\U0001F9EA Ingresar características de la estrella")
 
 st.markdown("""
-### Ejemplo por cada clase de estrella (Star type) - Ingresa uno de estos registros o bien tomarlo del dataset "6 class csv.csv"
+### Ejemplo por cada clase de estrella
 
-|   Temperature (K) |   Luminosity(L/Lo) |   Radius(R/Ro) |   Absolute magnitude(Mv) | Star color   | Spectral Class   |
-|------------------:|-------------------:|---------------:|-------------------------:|:-------------|:-----------------|
-|              3068 |             0.0024 |         0.17   |                    16.12 | Red          | M                |
-|              3600 |             0.0029 |         0.51   |                    10.69 | Red          | M                |
-|             25000 |             0.056  |         0.0084 |                    10.58 | Blue White   | B                |
-|             39000 |        204000      |        10.6    |                    -4.7  | Blue         | O                |
-|              3826 |        200000      |        19      |                    -6.93 | Red          | M                |
-|              3490 |        270000      |      1520      |                    -9.4  | Red          | M                |
+|   Temperature (K) |   Luminosity(L/Lo) |   Radius(R/Ro) |   Absolute magnitude(Mv) | Star color   | Spectral Class | Star type (salida esperada)     |
+|------------------:|-------------------:|---------------:|-------------------------:|:-------------|:----------------|:---------------------------------|
+|              3068 |             0.0024 |         0.17   |                    16.12 | Red          | M              | 0: Enana Marrón                 |
+|              3600 |             0.0029 |         0.51   |                    10.69 | Red          | M              | 1: Enana Roja                   |
+|             25000 |             0.056  |         0.0084 |                    10.58 | Blue White   | B              | 2: Enana Blanca                 |
+|             39000 |          204000    |        10.6    |                    -4.7  | Blue         | O              | 3: Secuencia Principal          |
+|              3826 |          200000    |        19      |                    -6.93 | Red          | M              | 4: Supergigante                 |
+|              3490 |          270000    |      1520      |                    -9.4  | Red          | M              | 5: Hipergigante                 |
 """)
 
 temperature = st.number_input("Temperatura (K)", min_value=1939.0, max_value=40000.0, value=3068.0, format="%.6f")
