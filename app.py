@@ -1,4 +1,5 @@
 
+
 import numpy as np
 import streamlit as st
 import pandas as pd
@@ -328,4 +329,5 @@ if st.button("\U0001F50D Predecir tipo de estrella"):
     st.pyplot(fig)
     ##---
     st.success(f"\U0001F31F Tipo de estrella predicho: **{predicted_type}** (Clase {y_pred[0]})")
+
 
